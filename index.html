@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salão Ideal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ======================================================
+     LOADING SCREEN
+     ====================================================== -->
+<div id="app-loading">
+  <div class="spinner"></div>
+  <p>Carregando sistema...</p>
+</div>
+
+<!-- ======================================================
+     LOGIN
+     ====================================================== -->
+<div id="view-login" class="hidden">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="login-icon">
+        <img src="Ideal_logopng.png" alt="Logo Salão Ideal" style="width:90px;height:90px;object-fit:contain" />
+      </span>
+      <h1 id="login-salon-name">Salão Ideal</h1>
+      <p>Sistema de Agendamentos</p>
+    </div>
+    <hr class="login-divider" />
+    <div id="google-signin-btn"></div>
+    <p id="auth-error" class="error-message hidden"></p>
+  </div>
+</div>
+
+<!-- ======================================================
+     APP PRINCIPAL
+     ====================================================== -->
+<div id="app-container" class="hidden">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-logo">
+        <img src="Ideal_logopng.png" alt="Logo" style="width:28px;height:28px;object-fit:contain;border-radius:6px" />
+      </span>
+      <span id="sidebar-salon-name">Salão Ideal</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="calendar" onclick="Router.navigate('calendar')">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+        <span>Agenda</span>
+      </button>
+      <button class="nav-item admin-only hidden" data-view="agendamentos" onclick="Router.navigate('agendamentos')">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></span>
+        <span>Agendamentos</span>
+      </button>
+      <button class="nav-item admin-only hidden" data-view="clientes" onclick="Router.navigate('clientes')">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <span>Clientes</span>
+      </button>
+      <button class="nav-item admin-only hidden" data-view="servicos" onclick="Router.navigate('servicos')">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></span>
+        <span>Serviços</span>
+      </button>
+      <button class="nav-item admin-only hidden" data-view="funcionarios" onclick="Router.navigate('funcionarios')">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span>Funcionários</span>
+      </button>
+      <button class="nav-item" data-view="como-usar" onclick="Router.navigate('como-usar')">
+        <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <span>Como usar?</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div id="user-avatar" class="avatar-sm"></div>
+        <div style="overflow:hidden">
+          <div id="user-name" class="user-name-text"></div>
+          <div id="user-role" class="user-role-badge"></div>
+        </div>
+      </div>
+      <button onclick="Auth.logout()" class="btn-logout">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sair
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main id="main-content">
+
+    <!-- Header Calendário -->
+    <div id="calendar-header" class="page-header">
+      <button class="btn-hamburger" onclick="UI.toggleSidebar()">☰</button>
+      <div class="header-left">
+        <h2 id="calendar-date-title"></h2>
+      </div>
+      <div class="header-center">
+        <button onclick="Calendar.previousDay()" class="btn-nav" title="Dia anterior">‹</button>
+        <button onclick="Calendar.goToToday()" class="btn-today">Hoje</button>
+        <button onclick="Calendar.nextDay()" class="btn-nav" title="Próximo dia">›</button>
+      </div>
+      <div class="header-right">
+        <div class="view-toggle">
+          <button id="btn-view-day" class="btn-toggle active" onclick="Calendar.setView('day')" title="Vista diária">Dia</button>
+          <button id="btn-view-month" class="btn-toggle" onclick="Calendar.setView('month')" title="Vista mensal">Mês</button>
+        </div>
+        <button onclick="App.refreshAll()" class="btn-refresh" id="btn-refresh" title="Atualizar dados">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+        <span class="refresh-dot" title="Atualização automática ativa"></span>
+        <button id="btn-new-appointment" onclick="Appointments.openCreate()" class="btn-primary admin-only hidden">
+          + Agendar
+        </button>
+      </div>
+    </div>
+
+    <!-- Header Páginas (Clientes, Serviços etc.) -->
+    <div id="default-header" class="page-header hidden">
+      <button class="btn-hamburger" onclick="UI.toggleSidebar()">☰</button>
+      <div class="header-left">
+        <h2 id="page-title"></h2>
+      </div>
+      <div class="header-right" id="default-header-actions"></div>
+    </div>
+
+    <!-- VIEW: CALENDÁRIO -->
+    <div id="view-calendar" class="view-content">
+      <div id="conflict-banner" class="conflict-banner hidden">
+        ⚠️ <span id="conflict-text"></span>
+      </div>
+      <div class="calendar-scroll-wrapper">
+        <div class="calendar-grid-outer" id="calendar-grid-outer">
+          <!-- Renderizado pelo JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: AGENDAMENTOS -->
+    <div id="view-agendamentos" class="view-content hidden">
+      <div class="table-container">
+        <div class="table-toolbar">
+          <input type="text" class="search-input" id="search-agendamentos"
+            placeholder="Buscar por cliente, serviço, horário, status..." oninput="Appointments.filterTable(this.value)" style="width:380px" />
+          <span id="agendamentos-filter-info" style="font-size:12px;color:var(--text-muted);margin-left:4px"></span>
+          <button onclick="Appointments.openCreate()" class="btn-primary">+ Novo Agendamento</button>
+        </div>
+<table class="data-table" id="table-agendamentos">
+          <thead>
+            <tr>
+              <th class="sortable sort-active" data-col="Data" onclick="Appointments.sortBy('Data')">Data <span class="sort-icon">▼</span></th>
+              <th class="sortable" data-col="Horario" onclick="Appointments.sortBy('Horario')">Horário <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-col="Cliente" onclick="Appointments.sortBy('Cliente')">Cliente <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-col="Servico" onclick="Appointments.sortBy('Servico')">Serviço <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-col="Funcionario" onclick="Appointments.sortBy('Funcionario')">Funcionário <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-col="Status" onclick="Appointments.sortBy('Status')">Status <span class="sort-icon">⇅</span></th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-agendamentos">
+            <tr><td colspan="7" class="table-empty">Carregando...</td></tr>
+          </tbody>
+        </table>
+        <div id="agendamentos-pagination"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: CLIENTES -->
+    <div id="view-clientes" class="view-content hidden">
+      <div class="table-container">
+        <div class="table-toolbar">
+          <input type="text" class="search-input" id="search-clientes"
+            placeholder="Buscar cliente..." oninput="Clientes.filterTable(this.value)" />
+          <button onclick="Clientes.openCreate()" class="btn-primary">+ Novo Cliente</button>
+        </div>
+        <table class="data-table" id="table-clientes">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Email</th>
+              <th>Observações</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-clientes">
+            <tr><td colspan="5" class="table-empty">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: SERVIÇOS -->
+    <div id="view-servicos" class="view-content hidden">
+      <div class="table-container">
+        <div class="table-toolbar">
+          <input type="text" class="search-input" id="search-servicos"
+            placeholder="Buscar serviço..." oninput="Servicos.filterTable(this.value)" />
+          <button onclick="Servicos.openCreate()" class="btn-primary">+ Novo Serviço</button>
+        </div>
+        <table class="data-table" id="table-servicos">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Duração</th>
+              <th>Preço</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-servicos">
+            <tr><td colspan="4" class="table-empty">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: FUNCIONÁRIOS -->
+    <div id="view-funcionarios" class="view-content hidden">
+      <div class="table-container">
+        <div class="table-toolbar">
+          <input type="text" class="search-input" id="search-funcionarios"
+            placeholder="Buscar funcionário..." oninput="Funcionarios.filterTable(this.value)" />
+          <button onclick="Funcionarios.openCreate()" class="btn-primary">+ Novo Funcionário</button>
+        </div>
+        <table class="data-table" id="table-funcionarios">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Email</th>
+              <th>Perfil</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-funcionarios">
+            <tr><td colspan="5" class="table-empty">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW: COMO USAR -->
+    <div id="view-como-usar" class="view-content hidden">
+      <div class="como-usar-page">
+
+        <div class="cu-intro">
+          <div class="cu-intro-icon">📅</div>
+          <div>
+            <h2>Como usar o Salão Ideal</h2>
+            <p>Este sistema é a agenda digital do salão. Aqui você marca horários, vê quem está agendado e envia confirmações pelo WhatsApp.</p>
+          </div>
+        </div>
+
+        <!-- SEÇÃO: DIA A DIA -->
+        <div class="cu-section">
+          <h3 class="cu-section-title">O que você vai usar todo dia</h3>
+
+          <div class="cu-card">
+            <div class="cu-card-num">1</div>
+            <div class="cu-card-body">
+              <h4>Ver a agenda de hoje</h4>
+              <p>Clique em <strong>Agenda</strong> no menu do lado esquerdo.</p>
+              <p>Os horários aparecem em colunas — uma coluna para cada funcionária.</p>
+              <p>Use as setas <strong>‹</strong> e <strong>›</strong> para ir para o dia anterior ou o próximo. O botão <strong>Hoje</strong> volta para o dia atual.</p>
+              <p>Quer ver o mês inteiro? Clique no botão <strong>Mês</strong> no canto superior direito da tela.</p>
+              <p>-> Você também pode <strong>reorganizar as colunas</strong> do jeito que preferir — por tipo de serviço, por ordem de chegada, ou como quiser. Passe o mouse sobre o nome de uma funcionária no topo da coluna e <strong>arraste</strong> para a posição desejada. A ordem fica salva automaticamente.</p>
+              <div class="cu-tip">💡 Reorganizar colunas é uma função exclusiva de Admin. Funcionárias com perfil "Funcionário" não são afetadas.</div>
+            </div>
+          </div>
+
+          <div class="cu-card">
+            <div class="cu-card-num">2</div>
+            <div class="cu-card-body">
+              <h4>Marcar um agendamento novo</h4>
+              <p>Clique no botão <strong>+ Agendar</strong> no canto superior direito.</p>
+              <p>Preencha os campos: data, horário, cliente, serviço e funcionária.</p>
+              <p>Clique em <strong>Salvar</strong>.</p>
+              <p>Pronto! O horário já aparece na agenda na hora.</p>
+              <div class="cu-tip">💡 Se o cliente ainda não está cadastrado, vá em <strong>Clientes → + Novo Cliente</strong> primeiro, depois volte para agendar.</div>
+            </div>
+          </div>
+
+          <div class="cu-card">
+            <div class="cu-card-num">3</div>
+            <div class="cu-card-body">
+              <h4>Editar ou excluir um agendamento</h4>
+              <p>Clique no bloco colorido na agenda. Um popup abre <strong>ali mesmo</strong>, sem sair da tela.</p>
+              <p>No popup você pode alterar diretamente:</p>
+              <ul class="cu-list">
+                <li>📅 <strong>Data e horário</strong></li>
+                <li>✂️ <strong>Serviço</strong></li>
+                <li>💅 <strong>Funcionária</strong></li>
+                <li>🔘 <strong>Status</strong> (Confirmado / Pendente / Cancelado)</li>
+                <li>📝 <strong>Observações</strong></li>
+              </ul>
+              <p>Clique em <strong>Salvar</strong> para confirmar. A agenda atualiza na hora.</p>
+              <p>Para excluir, clique no ícone 🗑️ e confirme. Não tem como desfazer.</p>
+              <div class="cu-tip">💡 Funcionárias com perfil "Funcionário" veem apenas os detalhes do agendamento, sem poder editar.</div>
+            </div>
+          </div>
+
+          <div class="cu-card">
+            <div class="cu-card-num">4</div>
+            <div class="cu-card-body">
+              <h4>Ver agendamentos sobrepostos</h4>
+              <p>Quando duas ou mais clientes estão agendadas no mesmo horário (ou horários que se cruzam), os blocos ficam empilhados na agenda.</p>
+              <p>Para ver todos de uma vez, <strong>passe o mouse</strong> sobre qualquer um dos blocos empilhados — eles se abrem automaticamente em diagonal, como um leque, sem precisar clicar.</p>
+              <p>Mova o mouse para fora do grupo para fechar o leque.</p>
+              <div class="cu-tip">💡 O agendamento que começa mais tarde fica sempre por cima dos demais, pois é o mais recente.</div>
+            </div>
+          </div>
+
+          <div class="cu-card">
+            <div class="cu-card-num">5</div>
+            <div class="cu-card-body">
+              <h4>Mandar confirmação pelo WhatsApp</h4>
+              <p>Clique no agendamento na agenda e depois no ícone <strong>📱</strong> dentro do popup.</p>
+              <p>Escolha o tipo de mensagem: confirmação, lembrete ou cancelamento.</p>
+              <p>Edite o texto se quiser mudar alguma coisa.</p>
+              <p>Clique em <strong>Abrir WhatsApp</strong> — ele vai abrir com a mensagem já escrita, só precisar enviar.</p>
+              <div class="cu-tip">💡 O WhatsApp abre com o número do cliente automaticamente. Não precisa digitar nada.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO: ADMIN -->
+        <div class="cu-section">
+          <h3 class="cu-section-title">Gerenciamento <span class="cu-badge">Somente Admin</span></h3>
+
+          <div class="cu-grid">
+            <div class="cu-mini-card">
+              <div class="cu-mini-icon">👩‍👩‍👧</div>
+              <h4>Clientes</h4>
+              <p>Menu lateral → <strong>Clientes</strong></p>
+              <p>Cadastre o nome e telefone de cada cliente. O telefone é usado para enviar o WhatsApp.</p>
+            </div>
+            <div class="cu-mini-card">
+              <div class="cu-mini-icon">✂️</div>
+              <h4>Serviços</h4>
+              <p>Menu lateral → <strong>Serviços</strong></p>
+              <p>Cada serviço precisa ter nome, duração em minutos e preço.</p>
+            </div>
+            <div class="cu-mini-card">
+              <div class="cu-mini-icon">💅</div>
+              <h4>Funcionárias</h4>
+              <p>Menu lateral → <strong>Funcionários</strong></p>
+              <p>Use o e-mail Google certinho — é com esse e-mail que a funcionária vai entrar no sistema.</p>
+              <p><strong>Admin</strong> vê tudo e pode criar/editar/excluir.<br><strong>Funcionário</strong> vê só a própria agenda, sem poder alterar nada.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SEÇÃO: FAQ -->
+        <div class="cu-section">
+          <h3 class="cu-section-title">Perguntas frequentes</h3>
+
+          <div class="cu-faq">
+            <div class="cu-faq-item">
+              <div class="cu-faq-q">A agenda não está carregando ou está desatualizada</div>
+              <div class="cu-faq-a">Clique no botão <strong>↻</strong> no canto superior direito da tela. A agenda também se atualiza sozinha a cada 60 segundos.</div>
+            </div>
+            <div class="cu-faq-item">
+              <div class="cu-faq-q">Não consigo entrar no sistema</div>
+              <div class="cu-faq-a">Seu e-mail precisa estar cadastrado na lista de funcionárias pelo Admin. Peça para o Admin verificar.</div>
+            </div>
+            <div class="cu-faq-item">
+              <div class="cu-faq-q">Só vejo os meus agendamentos, não os das outras funcionárias</div>
+              <div class="cu-faq-a">Isso é normal quando o seu perfil é "Funcionário". Para ver tudo, o Admin precisa mudar seu perfil para "Admin".</div>
+            </div>
+            <div class="cu-faq-item">
+              <div class="cu-faq-q">Marquei um agendamento mas ele não apareceu na agenda</div>
+              <div class="cu-faq-a">Clique no <strong>↻</strong> para atualizar. Se ainda não aparecer, verifique se a data está correta.</div>
+            </div>
+            <div class="cu-faq-item">
+              <div class="cu-faq-q">Como excluo um agendamento?</div>
+              <div class="cu-faq-a">Clique no bloco colorido na agenda → no popup que abrir, clique no ícone de lixeira 🗑️ → confirme clicando em "Excluir". Atenção: não tem como desfazer.</div>
+            </div>
+            <div class="cu-faq-item">
+              <div class="cu-faq-q">Apareceu um aviso amarelo de conflito no topo da agenda</div>
+              <div class="cu-faq-a">Isso significa que dois agendamentos foram marcados no mesmo horário para a mesma funcionária. Passe o mouse sobre os blocos sobrepostos para ver o leque — clique no que precisar corrigir e altere o horário direto no popup.</div>
+            </div>
+            <div class="cu-faq-item">
+              <div class="cu-faq-q">Tem vários blocos empilhados e não consigo clicar no que quero</div>
+              <div class="cu-faq-a">Passe o mouse sobre o grupo — os blocos se abrem em diagonal automaticamente. Clique no bloco desejado enquanto o leque estiver aberto.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ======================================================
+     MODAIS
+     ====================================================== -->
+<div id="modal-backdrop" class="modal-backdrop hidden" onclick="UI.closeModal()"></div>
+
+<!-- Modal: Agendamento -->
+<div id="modal-agendamento" class="modal hidden">
+  <div class="modal-header">
+    <h3 id="modal-agendamento-title">Novo Agendamento</h3>
+    <button onclick="UI.closeModal()" class="modal-close">×</button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="agendamento-id" />
+    <div class="form-row">
+      <div class="form-group">
+        <label>Data *</label>
+        <input type="date" id="agendamento-data" required />
+      </div>
+      <div class="form-group">
+        <label>Horário *</label>
+        <input type="time" id="agendamento-horario" required step="900" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Cliente *</label>
+      <div class="cliente-search-wrapper">
+        <div class="cliente-search-row">
+          <input
+            type="text"
+            id="agendamento-cliente-search"
+            class="cliente-search-input"
+            placeholder="Digite o nome para buscar..."
+            autocomplete="off"
+            oninput="Appointments.searchCliente(this.value)"
+            onfocus="Appointments.searchCliente(this.value)"
+          />
+          <button type="button" class="cliente-search-clear hidden" id="agendamento-cliente-clear" onclick="Appointments.clearCliente()" title="Limpar">×</button>
+        </div>
+        <div id="agendamento-cliente-dropdown" class="cliente-search-dropdown hidden"></div>
+        <input type="hidden" id="agendamento-cliente" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Serviço *</label>
+      <select id="agendamento-servico" required>
+        <option value="">Selecione o serviço...</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Funcionário *</label>
+      <select id="agendamento-funcionario" required>
+        <option value="">Selecione o funcionário...</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="agendamento-status">
+        <option value="Confirmado">Confirmado</option>
+        <option value="Pendente">Pendente</option>
+        <option value="Cancelado">Cancelado</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Observações</label>
+      <textarea id="agendamento-observacoes" rows="2" placeholder="Observações opcionais..."></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button onclick="UI.closeModal()" class="btn-secondary">Cancelar</button>
+    <button onclick="Appointments.save()" class="btn-primary">Salvar</button>
+  </div>
+</div>
+
+<!-- Modal: Cliente -->
+<div id="modal-cliente" class="modal hidden">
+  <div class="modal-header">
+    <h3 id="modal-cliente-title">Novo Cliente</h3>
+    <button onclick="UI.closeModal()" class="modal-close">×</button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="cliente-id" />
+    <div class="form-group">
+      <label>Nome *</label>
+      <input type="text" id="cliente-nome" required placeholder="Nome completo" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" id="cliente-telefone" placeholder="(41) 99999-9999" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="cliente-email" placeholder="email@exemplo.com" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Observações</label>
+      <textarea id="cliente-observacoes" rows="2" placeholder="Alergias, preferências..."></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button onclick="UI.closeModal()" class="btn-secondary">Cancelar</button>
+    <button onclick="Clientes.save()" class="btn-primary">Salvar</button>
+  </div>
+</div>
+
+<!-- Modal: Serviço -->
+<div id="modal-servico" class="modal hidden">
+  <div class="modal-header">
+    <h3 id="modal-servico-title">Novo Serviço</h3>
+    <button onclick="UI.closeModal()" class="modal-close">×</button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="servico-id" />
+    <div class="form-group">
+      <label>Nome *</label>
+      <input type="text" id="servico-nome" required placeholder="Ex: Corte feminino" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Duração (minutos) *</label>
+        <input type="number" id="servico-duracao" min="15" step="15" placeholder="60" required />
+      </div>
+      <div class="form-group">
+        <label>Preço (R$) *</label>
+        <input type="number" id="servico-preco" min="0" step="0.01" placeholder="0,00" required />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button onclick="UI.closeModal()" class="btn-secondary">Cancelar</button>
+    <button onclick="Servicos.save()" class="btn-primary">Salvar</button>
+  </div>
+</div>
+
+<!-- Modal: Funcionário -->
+<div id="modal-funcionario" class="modal hidden">
+  <div class="modal-header">
+    <h3 id="modal-funcionario-title">Novo Funcionário</h3>
+    <button onclick="UI.closeModal()" class="modal-close">×</button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="funcionario-id" />
+    <div class="form-group">
+      <label>Nome *</label>
+      <input type="text" id="funcionario-nome" required placeholder="Nome completo" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" id="funcionario-telefone" placeholder="(41) 99999-9999" />
+      </div>
+      <div class="form-group">
+        <label>Email Google *</label>
+        <input type="email" id="funcionario-email" required placeholder="email@gmail.com" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Perfil *</label>
+      <select id="funcionario-role" required>
+        <option value="Funcionario">Funcionário</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button onclick="UI.closeModal()" class="btn-secondary">Cancelar</button>
+    <button onclick="Funcionarios.save()" class="btn-primary">Salvar</button>
+  </div>
+</div>
+
+<!-- Modal: Confirmar Exclusão -->
+<div id="modal-confirm" class="modal modal-sm hidden">
+  <div class="modal-header">
+    <h3>Confirmar Exclusão</h3>
+    <button onclick="UI.closeModal()" class="modal-close">×</button>
+  </div>
+  <div class="modal-body">
+    <p id="confirm-message" style="font-size:14px;color:var(--text);line-height:1.6">
+      Tem certeza que deseja excluir este registro? Esta ação não pode ser desfeita.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button onclick="UI.closeModal()" class="btn-secondary">Cancelar</button>
+    <button id="btn-confirm-delete" class="btn-danger">Excluir</button>
+  </div>
+</div>
+
+<!-- Modal: WhatsApp -->
+<div id="modal-whatsapp" class="modal hidden">
+  <div class="modal-header">
+    <h3>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Enviar via WhatsApp
+    </h3>
+    <button onclick="UI.closeModal()" class="modal-close">×</button>
+  </div>
+  <div class="modal-body">
+    <p id="whatsapp-client-name" class="whatsapp-client"></p>
+    <div class="form-group">
+      <label>Tipo de mensagem</label>
+      <select id="whatsapp-type" onchange="WhatsApp.updatePreview()">
+        <option value="confirmacao">Confirmação de horário</option>
+        <option value="lembrete">Lembrete de atendimento</option>
+        <option value="cancelamento">Cancelamento / Remarcação</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Mensagem</label>
+      <textarea id="whatsapp-message" rows="4" style="resize:vertical"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button onclick="UI.closeModal()" class="btn-secondary">Cancelar</button>
+    <button onclick="WhatsApp.send()" class="btn-whatsapp">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:5px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Abrir WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="js/app.js"></script>
+</body>
+</html>
