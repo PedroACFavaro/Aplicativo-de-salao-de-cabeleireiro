@@ -1,18 +1,15 @@
 ================================================================================
-           SALÃO IDEAL — GUIA DE USO E PRIMEIROS PASSOS
+              GUIA DE USO — SISTEMA DE AGENDAMENTOS
 ================================================================================
 
-Bem-vindas ao Salão Ideal! ♥
-
-Este documento foi preparado com carinho para ajudar vocês a começarem a usar
-a plataforma com confiança, sem complicações. Leiam com atenção, e qualquer
-dúvida que surgir, não hesitem em perguntar.
+Este documento descreve como utilizar a plataforma de gestão de agendamentos
+para salões de cabeleireiro. Leia antes de começar a usar o sistema.
 
 --------------------------------------------------------------------------------
-O QUE É O SALÃO IDEAL?
+O QUE É O SISTEMA
 --------------------------------------------------------------------------------
 
-O Salão Ideal é a plataforma de gestão do nosso salão. Por meio dela é possível:
+Plataforma web de gestão para salões de beleza. Por meio dela é possível:
 
   • Visualizar a agenda de agendamentos no dia ou no mês
   • Criar, editar e cancelar agendamentos
@@ -25,36 +22,36 @@ O acesso é feito pelo Google — basta entrar com a conta Gmail cadastrada no
 sistema. Não é necessário criar senha separada.
 
 --------------------------------------------------------------------------------
-PERFIS DE ACESSO: ADMINS E FUNCIONÁRIAS
+PERFIS DE ACESSO: ADMIN E FUNCIONÁRIO
 --------------------------------------------------------------------------------
 
 Existem dois tipos de perfis na plataforma:
 
   ★ ADMIN
-    As admins têm acesso completo ao sistema. Podem:
+    Acesso completo ao sistema. Pode:
     - Ver e gerenciar todos os agendamentos
     - Criar, editar e excluir agendamentos, clientes, serviços e funcionários
     - Enviar mensagens via WhatsApp para os clientes
     - Configurar durações e preços dos serviços
     - Controlar quem tem acesso à plataforma
 
-  ★ FUNCIONÁRIA
-    As funcionárias têm acesso limitado. Podem:
+  ★ FUNCIONÁRIO
+    Acesso limitado. Pode:
     - Entrar na plataforma com a conta Google cadastrada
-    - Visualizar somente os agendamentos relacionados a elas no calendário
-    - Não conseguem ver dados de clientes, outros serviços ou outras funcionárias
+    - Visualizar somente os próprios agendamentos no calendário
+    - Não vê dados de clientes, outros serviços ou outros funcionários
 
-  IMPORTANTE: Uma funcionária só consegue acessar a plataforma se o e-mail
+  IMPORTANTE: Um funcionário só consegue acessar a plataforma se o e-mail
   cadastrado na aba "Funcionários" for exatamente o mesmo e-mail da conta
-  Google com a qual ela tentará entrar. Se o e-mail estiver errado ou
-  desatualizado, o acesso será negado.
+  Google usada para entrar. Se o e-mail estiver errado ou desatualizado,
+  o acesso será negado.
 
 --------------------------------------------------------------------------------
-PRIMEIROS PASSOS — O QUE FAZER ANTES DE COMEÇAR A USAR
+CONFIGURAÇÃO INICIAL — O QUE FAZER ANTES DE COMEÇAR A USAR
 --------------------------------------------------------------------------------
 
-Antes de usar a plataforma no dia a dia, a secretária (ou admin responsável)
-precisa realizar duas configurações essenciais:
+Antes de usar a plataforma no dia a dia, o admin responsável precisa realizar
+duas configurações essenciais:
 
 
   ╔══════════════════════════════════════════════════════════╗
@@ -63,64 +60,59 @@ precisa realizar duas configurações essenciais:
 
   Acesse a aba "Serviços" no menu lateral (visível apenas para admins).
 
-  Para cada serviço cadastrado, verifique e preencha:
+  Para cada serviço, verifique e preencha:
 
     • Nome do serviço (ex: Corte Feminino, Manicure, Escova Progressiva...)
-    • Duração em minutos — MUITO IMPORTANTE! A duração define o tempo que o
-      agendamento vai ocupar na agenda. Se não estiver correto, a visualização
-      do calendário não refletirá a realidade e podem ocorrer conflitos de
-      horário sem que o sistema avise corretamente.
+    • Duração em minutos — MUITO IMPORTANTE. A duração define o tempo que o
+      agendamento ocupa na agenda. Se estiver incorreta, a visualização do
+      calendário não refletirá a realidade e podem ocorrer conflitos de horário.
     • Preço em reais (R$)
 
   Exemplo:
     Serviço: Escova Simples | Duração: 60 minutos | Preço: R$ 80,00
 
-  Se algum serviço ainda não estiver cadastrado, clique em "Novo Serviço" e
-  preencha os dados. Revise todos antes de começar a fazer agendamentos reais.
+  Se algum serviço não estiver cadastrado, clique em "Novo Serviço" e preencha
+  os dados. Revise todos antes de começar a criar agendamentos reais.
 
 
   ╔══════════════════════════════════════════════════════════╗
-  ║  PASSO 2: CADASTRAR OS E-MAILS DE TODAS AS FUNCIONÁRIAS  ║
+  ║  PASSO 2: CADASTRAR OS E-MAILS DE TODOS OS FUNCIONÁRIOS  ║
   ╚══════════════════════════════════════════════════════════╝
 
   Acesse a aba "Funcionários" no menu lateral (visível apenas para admins).
 
-  Para cada funcionária (inclusive a própria secretária, se ela também for
-  funcionária no sistema), certifique-se de que o campo E-mail está preenchido
+  Para cada funcionário, certifique-se de que o campo E-mail está preenchido
   com o endereço Gmail correto e atualizado.
 
-  Como fazer isso:
-    1. Peça o Gmail de cada funcionária pessoalmente ou por mensagem
-    2. Na aba "Funcionários", localize o cadastro de cada uma
+  Como fazer:
+    1. Colete o Gmail de cada funcionário
+    2. Na aba "Funcionários", localize o cadastro de cada um
     3. Clique no botão de editar (ícone de lápis) e atualize o campo E-mail
     4. Confirme e salve
 
   ⚠ ATENÇÃO — APENAS GMAIL É ACEITO:
-    O sistema usa a conta Google para autenticação. Funcionárias que usam
-    Hotmail, Outlook, Yahoo ou qualquer outro provedor NÃO conseguirão entrar.
-    Caso alguma funcionária não tenha Gmail, ela precisará criar uma conta
-    gratuita em gmail.com antes de ser cadastrada na plataforma.
+    O sistema usa autenticação Google. Funcionários com Hotmail, Outlook,
+    Yahoo ou outro provedor NÃO conseguirão entrar. Quem não tiver Gmail
+    precisa criar uma conta gratuita em gmail.com antes de ser cadastrado.
 
   ⚠ ATENÇÃO — E-MAIL DEVE SER IDÊNTICO:
-    O e-mail cadastrado na plataforma precisa ser exatamente o mesmo da conta
-    Google que a funcionária usará para entrar. Um erro de digitação impedirá
-    o acesso. Confirme sempre com a própria funcionária antes de salvar.
+    O e-mail cadastrado precisa ser exatamente o mesmo da conta Google usada
+    para entrar. Um erro de digitação impedirá o acesso.
 
-  Sobre os perfis ao cadastrar:
-    - Se a pessoa precisar gerenciar agendamentos e clientes → perfil ADMIN
-    - Se a pessoa precisar apenas ver a própria agenda → perfil FUNCIONÁRIA
+  Sobre os perfis:
+    - Quem precisa gerenciar agendamentos e clientes → perfil ADMIN
+    - Quem precisa apenas ver a própria agenda → perfil FUNCIONÁRIO
 
 --------------------------------------------------------------------------------
-COMO AS FUNCIONÁRIAS ENTRAM NA PLATAFORMA
+COMO ACESSAR A PLATAFORMA
 --------------------------------------------------------------------------------
 
-Após o e-mail estar corretamente cadastrado, a funcionária poderá acessar
-a plataforma seguindo estes passos:
+Com o e-mail corretamente cadastrado, o funcionário acessa a plataforma assim:
 
   1. Abrir o link da plataforma no navegador (Chrome recomendado)
   2. Clicar em "Entrar com Google"
   3. Selecionar ou digitar o e-mail Gmail cadastrado no sistema
-  4. Pronto — ela verá o calendário com os agendamentos do dia relacionados a ela
+  4. O calendário carrega automaticamente com os agendamentos do dia
 
 Não é necessário instalar nenhum aplicativo. A plataforma funciona direto
 no navegador, inclusive pelo celular.
@@ -130,79 +122,68 @@ O BOTÃO WHATSAPP
 --------------------------------------------------------------------------------
 
 O sistema possui um botão de WhatsApp que permite enviar mensagens rápidas
-para os clientes diretamente da plataforma. Ao clicar nele, você pode escolher
-entre três modelos de mensagem:
+para os clientes diretamente da plataforma. Ao clicar nele, é possível
+escolher entre três modelos de mensagem:
 
   • Confirmação de agendamento
   • Lembrete (para o dia seguinte)
   • Aviso de cancelamento ou remarcação
 
-O texto vem pré-preenchido com os dados do agendamento. Você pode revisar
+O texto vem pré-preenchido com os dados do agendamento. É possível revisar
 e editar antes de enviar. Ao confirmar, o WhatsApp Web abre automaticamente
-com a mensagem pronta, bastando clicar em "Enviar".
+com a mensagem pronta.
 
-⚠ IMPORTANTE: O botão de WhatsApp SÓ APARECE e SÓ FUNCIONA para clientes
-que possuem número de telefone corretamente cadastrado na aba "Clientes".
-Se o cliente não tiver telefone registrado no sistema, o botão não será
-exibido. Por isso, ao cadastrar novos clientes, sempre tente incluir o
-número de celular com DDD (ex: 11912345678).
+⚠ IMPORTANTE: O botão de WhatsApp só aparece para clientes que possuem
+número de telefone cadastrado na aba "Clientes". Ao cadastrar novos clientes,
+sempre inclua o número de celular com DDD (ex: 11912345678).
 
 --------------------------------------------------------------------------------
 DICAS PARA O DIA A DIA
 --------------------------------------------------------------------------------
 
-  ✔ CALENDÁRIO ATUALIZADO AUTOMATICAMENTE
-    O calendário se atualiza sozinho a cada 15 segundos. Mas se precisar ver
-    as informações mais recentes na hora, clique no botão de atualizar (ícone
-    de seta circular) no topo da tela.
+  ✔ ATUALIZAÇÃO AUTOMÁTICA
+    O calendário se atualiza automaticamente a cada 3 minutos. Para forçar
+    uma atualização imediata, clique no botão ↻ no topo da tela.
 
   ✔ CONFLITOS DE HORÁRIO
-    Se dois agendamentos para a mesma funcionária se sobrepuserem no horário,
-    o sistema exibirá um aviso de conflito no topo do calendário. Fique atenta
-    a esse alerta para evitar duplos agendamentos.
+    Se dois agendamentos do mesmo funcionário se sobrepuserem, o sistema
+    exibirá um aviso de conflito no topo do calendário.
 
   ✔ VISÃO DIA E MÊS
-    Você pode alternar entre a visão do dia (com grade horária detalhada) e a
-    visão do mês (visão geral). Use a que for mais conveniente para cada
-    situação.
+    É possível alternar entre a visão do dia (grade horária detalhada) e a
+    visão do mês (visão geral).
 
   ✔ BUSCA NAS TABELAS
-    Nas abas de Agendamentos, Clientes, Serviços e Funcionários existe uma
-    barra de pesquisa. Use-a para encontrar rapidamente o que precisa.
+    Nas abas de Agendamentos, Clientes, Serviços e Funcionários há uma barra
+    de pesquisa para encontrar registros rapidamente.
 
   ✔ OBSERVAÇÕES NOS AGENDAMENTOS
-    Ao criar ou editar um agendamento, há um campo de Observações. Use-o para
-    registrar informações importantes, como preferências da cliente, alergias
-    a produtos ou combinações especiais.
+    Ao criar ou editar um agendamento, o campo Observações pode ser usado para
+    registrar informações como preferências, alergias a produtos ou combinações
+    especiais.
 
 --------------------------------------------------------------------------------
-RESUMO DA LISTA DE TAREFAS INICIAIS
+CHECKLIST DE CONFIGURAÇÃO INICIAL
 --------------------------------------------------------------------------------
 
-Antes de começar a usar a plataforma no dia a dia, confirme que você fez:
+Antes de usar a plataforma no dia a dia, confirme que foi feito:
 
   [ ] Revisar todos os serviços cadastrados e garantir que a DURAÇÃO em minutos
       está correta para cada um
 
-  [ ] Coletar o Gmail de todas as funcionárias (inclusive o seu próprio, se
-      aplicável)
+  [ ] Coletar o Gmail de todos os funcionários
 
-  [ ] Verificar se cada funcionária já tem um Gmail (quem não tiver precisa criar)
+  [ ] Verificar se cada funcionário já tem um Gmail (quem não tiver precisa criar)
 
-  [ ] Atualizar o cadastro de cada funcionária na aba "Funcionários" com o
+  [ ] Atualizar o cadastro de cada funcionário na aba "Funcionários" com o
       Gmail correto
 
-  [ ] Definir corretamente o perfil de cada uma (Admin ou Funcionária)
+  [ ] Definir corretamente o perfil de cada um (Admin ou Funcionário)
 
-  [ ] Garantir que os clientes mais frequentes têm número de telefone cadastrado
+  [ ] Garantir que os clientes frequentes têm número de telefone cadastrado
       na aba "Clientes", para que o botão de WhatsApp funcione
 
-  [ ] Informar às funcionárias o link da plataforma e orientá-las a entrar
+  [ ] Informar aos funcionários o link da plataforma e orientá-los a entrar
       com o Gmail cadastrado
 
-Quando todas essas etapas estiverem concluídas, o salão estará pronto para
-usar a plataforma com toda a organização e praticidade que ela oferece!
-
---------------------------------------------------------------------------------
-               Bom trabalho a todas — e bem-vindas ao Salão Ideal! ♥
---------------------------------------------------------------------------------
+================================================================================
