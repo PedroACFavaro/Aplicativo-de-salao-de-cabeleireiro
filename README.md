@@ -1,6 +1,6 @@
 # Sistema de Agendamentos para Salão de Cabeleireiro
 
-Sistema web completo de gestão de agendamentos para salões de beleza — **gratuito, sem servidores e sem mensalidades**. Roda direto no navegador via GitHub Pages, usa Google Sheets como banco de dados e Google Apps Script como backend.
+Sistema web completo de gestão de agendamentos para salões de beleza — **gratuito, sem servidores e sem mensalidades**. Roda direto no navegador via GitHub Pages, usa Google Sheets como banco de dados e Google Apps Script como backend. A aplicação é voltada para salões pequenos e médios.
 
 ---
 
