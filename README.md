@@ -1,285 +1,205 @@
-# Salão Ideal — Sistema de Agendamentos
+# Sistema de Agendamentos para Salão de Cabeleireiro
 
-Sistema completo de gestão para salão de beleza, substituindo o AppSheet.  
-Tecnologias: HTML/CSS/JS puro + Google Sheets + Google Apps Script + Login Google.
+Sistema web completo de gestão de agendamentos para salões de beleza — **gratuito, sem servidores e sem mensalidades**. Roda direto no navegador via GitHub Pages, usa Google Sheets como banco de dados e Google Apps Script como backend.
+
+> Desenvolvido como alternativa ao AppSheet, com custo zero de infraestrutura.
+
+---
+
+## Como funciona
+
+```
+Navegador (GitHub Pages)
+       │
+       │  requisições HTTP
+       ▼
+Google Apps Script  ←→  Google Sheets (banco de dados)
+       │
+       │  OAuth 2.0
+       ▼
+Google Identity (login com conta Gmail)
+```
+
+- O **frontend** é um arquivo HTML/CSS/JS estático hospedado gratuitamente no GitHub Pages.
+- O **backend** é um Google Apps Script publicado como Web App — age como uma API REST simples que lê e escreve na planilha.
+- O **banco de dados** é uma planilha Google Sheets com 4 abas: `Agendamentos`, `Clientes`, `Servicos`, `Funcionarios`.
+- O **login** usa Google OAuth 2.0 — o acesso é controlado pelo e-mail cadastrado na aba `Funcionarios`.
+
+Não há servidor Node, Python ou banco de dados para configurar. Tudo roda na infraestrutura do Google.
+
+---
+
+## Funcionalidades
+
+- Agenda visual com grade horária (visão dia e mês), blocos coloridos por funcionária
+- Agendamentos sobrepostos com fan-out no hover
+- Criar, editar e excluir agendamentos via popup inline
+- Envio de mensagens de confirmação, lembrete e cancelamento pelo WhatsApp Web
+- Cadastro de clientes, serviços (com duração e preço) e funcionários
+- Dois perfis: **Admin** (acesso total) e **Funcionário** (vê só a própria agenda, somente leitura)
+- Atualização automática a cada 3 minutos
+- Reorganização de colunas por drag-and-drop
 
 ---
 
 ## Estrutura do projeto
 
 ```
-SalãoIdeal/
+/
 ├── index.html              ← Aplicação SPA completa
 ├── css/
 │   └── style.css           ← Todos os estilos
 ├── js/
-│   └── app.js              ← Toda a lógica (2 constantes a configurar)
+│   └── app.js              ← Toda a lógica da aplicação
 ├── apps-script/
-│   └── Code.gs             ← Backend Google Apps Script (1 constante a configurar)
+│   └── Code.gs             ← Backend (cola no Google Apps Script)
 └── README.md
 ```
 
 ---
 
-## PASSO 1 — Criar a Planilha Google Sheets
+## Configuração — do zero ao ar
 
-1. Acesse [sheets.google.com](https://sheets.google.com) e crie uma nova planilha.
-2. Nomeie como **"Salão Ideal"** (ou qualquer nome).
-3. Copie o **ID da planilha** da URL:
+### Passo 1 — Criar a planilha
+
+1. Acesse [sheets.google.com](https://sheets.google.com) e crie uma nova planilha em branco.
+2. Copie o **ID** da URL:
    ```
-   https://docs.google.com/spreadsheets/d/  ESTE_É_O_ID  /edit
+   https://docs.google.com/spreadsheets/d/  →ESTE_TRECHO←  /edit
    ```
 
-As abas serão criadas automaticamente na próxima etapa.
-
----
-
-## PASSO 2 — Publicar o Google Apps Script
-
-### 2.1 — Abrir o editor
+### Passo 2 — Configurar o Apps Script
 
 1. Na planilha, clique em **Extensões → Apps Script**.
-2. Isso abre o editor do Apps Script.
-
-### 2.2 — Colar o código
-
-1. Apague o código padrão (`function myFunction() {}`).
-2. Cole **todo o conteúdo** do arquivo `apps-script/Code.gs`.
-3. Na linha 6, substitua:
+2. Apague o código padrão e cole todo o conteúdo de `apps-script/Code.gs`.
+3. Na **linha 6**, substitua o ID:
    ```javascript
-   const SPREADSHEET_ID = 'SEU_SPREADSHEET_ID_AQUI';
+   const SPREADSHEET_ID = 'COLE_SEU_ID_AQUI';
    ```
-   pelo ID que você copiou no Passo 1.
+4. No menu dropdown de funções, selecione `setupSpreadsheet` e clique em **▶ Executar** para criar as 4 abas automaticamente.
+5. Clique em **Implantar → Nova implantação** → tipo **"App da Web"**:
+   - Executar como: **Eu**
+   - Quem tem acesso: **Qualquer pessoa**
+6. Copie a URL gerada (formato `https://script.google.com/macros/s/.../exec`).
 
-### 2.3 — Criar as abas da planilha
+### Passo 3 — Adicionar o primeiro Admin
 
-1. No editor do Apps Script, selecione a função `setupSpreadsheet` no menu dropdown.
-2. Clique em **▶ Executar**.
-3. Autorize as permissões quando solicitado.
-4. As 4 abas (`Agendamentos`, `Clientes`, `Servicos`, `Funcionarios`) serão criadas automaticamente com os cabeçalhos corretos.
+Na aba **Funcionarios** da planilha, insira manualmente a primeira linha:
 
-### 2.4 — Adicionar o primeiro Admin
+| FuncionarioID | Nome     | Telefone    | Email              | Role  |
+|---------------|----------|-------------|--------------------|-------|
+| FUNC001       | Seu Nome | 11999999999 | seuemail@gmail.com | Admin |
 
-Na aba **Funcionarios** da planilha, adicione manualmente a primeira linha de dados:
+> O e-mail precisa ser exatamente o mesmo da conta Google usada para fazer login.
 
-| FuncionarioID | Nome       | Telefone      | Email                  | Role  |
-|---------------|------------|---------------|------------------------|-------|
-| FUNC001       | Seu Nome   | 41999999999   | seuemail@gmail.com     | Admin |
+### Passo 4 — Configurar o login Google (OAuth)
 
-> **Importante:** O email deve ser exatamente o mesmo da conta Google que vai fazer login.
+1. Acesse [console.cloud.google.com](https://console.cloud.google.com) e crie um novo projeto.
+2. Vá em **APIs e Serviços → Tela de consentimento OAuth** → Externo → preencha nome e e-mail.
+3. Vá em **Credenciais → + Criar credenciais → ID do cliente OAuth** → tipo **Aplicativo da Web**.
+4. Em **Origens JavaScript autorizadas**, adicione:
+   - `http://localhost` (testes locais)
+   - `https://SEU-USUARIO.github.io`
+5. Copie o **ID do cliente** (formato `xxxxxxxxx.apps.googleusercontent.com`).
 
-### 2.5 — Publicar como Web App
+### Passo 5 — Configurar o frontend
 
-1. No editor do Apps Script, clique em **Implantar → Nova implantação**.
-2. Clique no ícone de engrenagem e selecione **"App da Web"**.
-3. Configure:
-   - **Descrição:** Salão Ideal API
-   - **Executar como:** Eu (sua conta Google)
-   - **Quem tem acesso:** Qualquer pessoa (anônimo)
-4. Clique em **Implantar**.
-5. Autorize o acesso quando solicitado.
-6. Copie a **URL do Web App** — ela tem o formato:
-   ```
-   https://script.google.com/macros/s/AKfycb.../exec
-   ```
-
----
-
-## PASSO 3 — Configurar o Login Google OAuth
-
-### 3.1 — Criar projeto no Google Cloud
-
-1. Acesse [console.cloud.google.com](https://console.cloud.google.com).
-2. Crie um novo projeto (ex: "Salão Ideal").
-3. No menu lateral, vá em **APIs e Serviços → Tela de consentimento OAuth**.
-4. Selecione **Externo** e preencha:
-   - Nome do app: Salão Ideal
-   - Email de suporte: seu email
-5. Em **Escopos**, não precisa adicionar nada extra.
-6. Em **Usuários de teste**, adicione seu email (enquanto não publicar o app).
-
-### 3.2 — Criar credenciais OAuth
-
-1. Vá em **APIs e Serviços → Credenciais**.
-2. Clique em **+ Criar credenciais → ID do cliente OAuth**.
-3. Tipo: **Aplicativo da Web**.
-4. Nome: Salão Ideal Frontend.
-5. Em **Origens JavaScript autorizadas**, adicione:
-   - `http://localhost` (para testes locais)
-   - `https://SEU-USUARIO.github.io` (seu GitHub Pages)
-6. Clique em **Criar**.
-7. Copie o **ID do cliente** — formato: `xxxxxxxxx.apps.googleusercontent.com`.
-
----
-
-## PASSO 4 — Configurar o Frontend
-
-Abra o arquivo `js/app.js` e edite as duas linhas no topo:
+Abra `js/app.js` e edite as três linhas no topo do arquivo:
 
 ```javascript
 const CONFIG = {
-  SALON_NAME:   'Nome do Seu Salão',          // ← Troque aqui
-  WEBAPP_URL:   'https://script.google.com/macros/s/SEU_SCRIPT_ID/exec',  // ← Cole a URL do Passo 2.5
-  GOOGLE_CLIENT_ID: 'SEU_CLIENT_ID.apps.googleusercontent.com',           // ← Cole o ID do Passo 3.2
-  // ... resto não precisa mexer
+  SALON_NAME:        'Nome do Seu Salão',
+  WEBAPP_URL:        'https://script.google.com/macros/s/SEU_SCRIPT_ID/exec',
+  GOOGLE_CLIENT_ID:  'SEU_CLIENT_ID.apps.googleusercontent.com',
+  // ... o resto não precisa mexer
 };
 ```
 
----
+### Passo 6 — Publicar no GitHub Pages
 
-## PASSO 5 — Publicar no GitHub Pages
-
-### 5.1 — Criar repositório
-
-1. Acesse [github.com](https://github.com) e crie um novo repositório público.
-2. Nome sugerido: `salao-ideal` (ou qualquer nome).
-
-### 5.2 — Fazer upload dos arquivos
-
-**Opção A — Interface web do GitHub:**
-1. No repositório, clique em **Add file → Upload files**.
-2. Faça upload de toda a pasta (index.html, css/, js/).
-3. **Não envie** a pasta `apps-script/` (é só para referência local).
-
-**Opção B — Git via terminal:**
-```bash
-cd D:/SalãoIdeal
-git init
-git add index.html css/ js/
-git commit -m "Primeira versão"
-git remote add origin https://github.com/SEU-USUARIO/salao-ideal.git
-git push -u origin main
-```
-
-### 5.3 — Ativar o GitHub Pages
-
-1. No repositório, vá em **Settings → Pages**.
-2. Em **Source**, selecione **Deploy from a branch**.
-3. Branch: **main**, pasta: **/ (root)**.
-4. Clique em **Save**.
-5. Aguarde 1-2 minutos. Seu site estará em:
+1. Crie um repositório público no GitHub.
+2. Faça upload de `index.html`, `css/` e `js/` (**não envie** `apps-script/` — é só referência local).
+3. No repositório, vá em **Settings → Pages → Source: Deploy from a branch → main / (root)**.
+4. Aguarde 1–2 minutos. O sistema estará disponível em:
    ```
-   https://SEU-USUARIO.github.io/salao-ideal/
+   https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/
    ```
-
-### 5.4 — Atualizar o Google Cloud com a URL final
-
-1. Volte em **Google Cloud → Credenciais → seu ID OAuth**.
-2. Adicione a URL do GitHub Pages em **Origens JavaScript autorizadas**:
-   ```
-   https://SEU-USUARIO.github.io
-   ```
-3. Salve.
+5. Volte ao Google Cloud e adicione essa URL nas **Origens JavaScript autorizadas** do seu ID OAuth.
 
 ---
 
-## PASSO 6 — Teste Final
+## O que muda ao reutilizar este projeto
 
-1. Acesse `https://SEU-USUARIO.github.io/salao-ideal/`
-2. Clique em **Entrar com Google**
-3. Faça login com o email que cadastrou na planilha (Passo 2.4)
-4. O sistema deve carregar a agenda!
+Para adaptar para outro salão, você precisa alterar **3 coisas**:
 
-Se aparecer erro **"Usuário não autorizado"**, verifique se o email na planilha está idêntico ao da sua conta Google.
+| O quê | Onde | O que colocar |
+|---|---|---|
+| `SPREADSHEET_ID` | `apps-script/Code.gs` linha 6 | ID da nova planilha Google Sheets |
+| `WEBAPP_URL` | `js/app.js` linha 10 | URL gerada ao implantar o Apps Script |
+| `GOOGLE_CLIENT_ID` | `js/app.js` linha 11 | ID OAuth do projeto no Google Cloud |
 
----
-
-## Fluxo de uso
-
-### Para o Admin
-
-| Ação | Como fazer |
-|------|-----------|
-| Ver agenda do dia | Tela inicial — use ‹ e › para navegar |
-| Criar agendamento | Botão "+ Agendar" no canto superior direito |
-| Editar agendamento | Clique no bloco colorido na agenda → editar campos no popup inline → Salvar |
-| Excluir agendamento | Clique no bloco colorido na agenda → ícone 🗑️ no popup → confirmar |
-| Ver agendamentos sobrepostos | Passe o mouse sobre qualquer bloco que esteja empilhado — eles se abrem em diagonal |
-| Gerenciar clientes | Menu lateral → Clientes |
-| Gerenciar serviços | Menu lateral → Serviços |
-| Cadastrar funcionária | Menu lateral → Funcionários |
-| Enviar WhatsApp | Clique no agendamento → ícone 📱 no popup |
-| Atualizar manual | Botão ↻ no header (auto atualiza a cada 3 min) |
-| Reorganizar colunas | Arrastar o cabeçalho de uma funcionária para outra posição |
-| Ver próximos agendamentos | Menu → Agendamentos → botões de página ‹ 1 2 3 › no rodapé da tabela |
-
-### Para Funcionárias (Role = Funcionario)
-
-- Veem apenas o menu **Agenda**
-- Visualizam somente os **próprios agendamentos** no calendário
-- Clique em um agendamento exibe os detalhes (somente leitura — sem edição)
-- Não podem criar, editar ou excluir nada
-
-### Comportamento visual da agenda
-
-| Recurso | Descrição |
-|---------|-----------|
-| Grade em 30 min | Linhas e labels a cada 30 minutos (08:00, 08:30, 09:00…) |
-| Empilhamento | Agendamentos que começam mais tarde ficam visualmente por cima dos que se prolongam |
-| Fan-out no hover | Blocos sobrepostos se abrem em diagonal (~20°) ao passar o mouse, revelando todos |
-| Popup de edição | Clique abre um popup inline com todos os campos editáveis — sem abrir tela separada |
+Opcionalmente:
+- `SALON_NAME` em `js/app.js` — nome exibido na tela de login e no sidebar
+- Logo: substitua o arquivo de imagem e atualize o `src` nas linhas 28 e 48 do `index.html`
 
 ---
 
-## Estrutura da Planilha
+## Estrutura da planilha
 
-### Aba: Agendamentos
+As abas são criadas automaticamente pela função `setupSpreadsheet`. Estrutura de cada uma:
+
+### Agendamentos
 | AgendamentoID | Data | Horario | ClienteID | ServicoID | Status | Observacoes | FuncionarioID |
 |---|---|---|---|---|---|---|---|
-| AGXXXXXXX | 2026-06-02 | 14:00 | CLXXXXXX | SVXXXXXX | Confirmado | ... | FNXXXXXX |
+| AG0000001 | 2026-06-11 | 09:00 | CLI001 | SVC001 | Confirmado | | FUNC002 |
 
-### Aba: Clientes
+### Clientes
 | ClienteID | Nome | Telefone | Email | Observacoes |
 |---|---|---|---|---|
-| CLXXXXXX | Maria Silva | 41999999999 | maria@email.com | ... |
+| CLI001 | Maria Silva | 11999887766 | maria@email.com | |
 
-### Aba: Servicos
+### Servicos
 | ServicoID | Nome | Duracao_min | Preco |
 |---|---|---|---|
-| SVXXXXXX | Corte feminino | 60 | 80 |
+| SVC001 | Corte Feminino | 60 | 80 |
 
-### Aba: Funcionarios
+### Funcionarios
 | FuncionarioID | Nome | Telefone | Email | Role |
 |---|---|---|---|---|
-| FNXXXXXX | Ana Paula | 41988888888 | ana@gmail.com | Admin |
+| FUNC001 | Ana Paula | 11988888888 | ana@gmail.com | Admin |
+
+> `Role` aceita `Admin` ou `Funcionario`.
 
 ---
 
-## Atualização de versão do Apps Script
+## Perfis de acesso
 
-Quando editar o `Code.gs` no futuro:
-1. Abra o Apps Script.
-2. Faça as alterações.
-3. Clique em **Implantar → Gerenciar implantações**.
-4. Clique no lápis ✏️ na implantação existente.
-5. Selecione **Nova versão** e clique em **Implantar**.
-
-> Se criar uma nova implantação (em vez de atualizar a existente), a URL muda e você precisa atualizar `WEBAPP_URL` no `app.js`.
+| | Admin | Funcionário |
+|---|---|---|
+| Ver a própria agenda | ✅ | ✅ |
+| Ver agenda de todos | ✅ | ❌ |
+| Criar / editar / excluir agendamentos | ✅ | ❌ |
+| Gerenciar clientes, serviços e funcionários | ✅ | ❌ |
+| Enviar WhatsApp | ✅ | ❌ |
 
 ---
 
 ## Solução de problemas
 
-| Problema | Solução |
-|----------|---------|
-| "Usuário não autorizado" | Verifique o email na aba Funcionarios |
-| Erro 401 / token inválido | Verifique o `GOOGLE_CLIENT_ID` em `app.js` |
-| Agenda não carrega | Verifique a `WEBAPP_URL` em `app.js` |
-| Botão Google não aparece | Verifique se o domínio está nas origens autorizadas no Google Cloud |
-| Dados não salvam | Verifique se o `SPREADSHEET_ID` em `Code.gs` está correto |
-| "Ação inválida" | Reimplante o Apps Script (nova versão) |
+| Problema | Causa provável | Solução |
+|---|---|---|
+| "Usuário não autorizado" | E-mail não cadastrado ou digitado errado | Verifique a aba `Funcionarios` na planilha |
+| Agenda não carrega | `WEBAPP_URL` incorreta | Confirme a URL em `app.js` |
+| Botão Google não aparece | Domínio não autorizado no OAuth | Adicione o domínio nas origens autorizadas no Google Cloud |
+| Dados não salvam | `SPREADSHEET_ID` errado | Confirme o ID em `Code.gs` e reimplante |
+| Erro após editar o `Code.gs` | Versão desatualizada | Implantar → Gerenciar implantações → lápis → Nova versão |
 
 ---
 
-## Tecnologias utilizadas
+## Stack
 
-- **Frontend:** HTML5 + CSS3 + JavaScript ES2022 (sem frameworks)
-- **Tipografia:** Google Fonts — Poppins
-- **Backend:** Google Apps Script
+- **Frontend:** HTML5 + CSS3 + JavaScript ES2022 — sem frameworks, sem build step
+- **Backend:** Google Apps Script (Web App)
 - **Banco de dados:** Google Sheets
 - **Autenticação:** Google Identity Services (OAuth 2.0)
-- **Hospedagem:** GitHub Pages (gratuito) ou Netlify/Vercel (repositório privado, também gratuito)
-
----
-
-*Desenvolvido para substituir o AppSheet com custo zero de infraestrutura.*
+- **Hospedagem:** GitHub Pages (gratuito) — ou Netlify/Vercel para repositório privado
